@@ -3,7 +3,9 @@ const Boleto = require("../models/boleto");
 const Validator = require("../Utils/validator");
 
 exports.getBoletos = async (req, res) => {
-  const barCode = req.body.barCode;
+  //const barCode = req.body.barCode;
+
+  const barCode = req.params.barcode;
 
   const formattedBarCode = barCode.replace(/[^\d]/g, "");
 

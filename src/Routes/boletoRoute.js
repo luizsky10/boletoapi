@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const boletoController = require("../Controllers/boletoController");
 
-router.get("/", boletoController.getBoletos);
+router.get("/:barcode", boletoController.getBoletos);
 
 router.post("/", boletoController.createBoleto);
 
