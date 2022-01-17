@@ -1,25 +1,33 @@
 const Boleto = require("../models/boleto");
 
+const Validator = require("../Utils/validator");
+
 exports.getBoletos = async (req, res) => {
   const barCode = req.body.barCode;
 
   const boleto = await Boleto.findOne({ barCode: barCode });
 
-  console.log("boleto", boleto);
-  if (boleto) {
-    const barCode = boleto.barCode;
-    const amount = boleto.amount;
-    const expirationDate = boleto.expirationDate;
+  let validatorBarCode = Validator.validator(barCode);
 
-    res.status(200).json({
-      message: "Boleto encontrado com sucesso!",
-      barCode: barCode,
-      amount: amount,
-      expirationDate: expirationDate,
-    });
+  if (validatorBarCode === 1) {
+    if (boleto) {
+      const barCode = boleto.barCode;
+      const amount = boleto.amount;
+      const expirationDate = boleto.expirationDate;
+      res.status(200).json({
+        message: "Boleto encontrado com sucesso!",
+        barCode: barCode,
+        amount: amount,
+        expirationDate: expirationDate,
+      });
+    } else {
+      res.status(400).json({
+        message: "Boleto não encontrado",
+      });
+    }
   } else {
     res.status(400).json({
-      message: "Boleto não encontrado",
+      message: validatorBarCode,
     });
   }
 };
