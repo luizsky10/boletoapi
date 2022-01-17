@@ -119,7 +119,6 @@ const validatorTitulo2 = (codBar) => {
           //console.log("pesoItem: ", pesoItem);
           //console.log("index: ", index);
           //console.log("pesoIndex: ", pesoIndex);
-
           // console.log("soma: ", soma, "\n");
         }
       }
@@ -148,14 +147,45 @@ const validatorTitulo2 = (codBar) => {
   return 1;
 };
 
+const validatorConvenio = (codBar) => {
+  let campo1Result = 0;
+  let validFlag1 = 0;
+  codBarArr = codBar.split("");
+  codBarArr.forEach((item, index) => {
+    if (index % 2 == 0 && index !== 9) {
+      if (item * 2 > 9) {
+        let hold = item * 2;
+
+        campo1Result += hold
+          .toString()
+          .split("")
+          .map(Number)
+          .reduce(function (a, b) {
+            return a + b;
+          }, 0);
+      } else campo1Result = campo1Result + item * 2;
+    }
+    if (index % 2 != 0 && index !== 4) {
+      campo1Result = campo1Result + item * 1;
+    }
+  });
+  const resto = campo1Result % 10;
+  const result = 10 - resto;
+  validFlag1 = result == +codBar[4];
+};
+
 exports.validator = function validator(codBar) {
   if (!codBar) return "Linha digitável invalida";
 
-  if (codBar.length !== 47)
+  if (codBar.length !== 47 && codBar.length !== 44)
     return "Linha digitável invalida - Quantidade de números invalida";
 
-  if (!validatorTitulo(codBar)) {
-    return "Linha digitável invalida - Digitos verificadores incorretos";
+  if (codBar.length == 47) {
+    if (!validatorTitulo(codBar)) {
+      return "Linha digitável invalida - Digitos verificadores incorretos";
+    }
+  } else if (!validatorConvenio(codBar)) {
+    return "Linha digitável invalida - Digitos verificadores incorretos - Convênio";
   }
 
   // if (!validatorTitulo2(codBar)) {
