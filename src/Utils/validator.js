@@ -107,24 +107,32 @@ const validatorTitulo2 = (codBar) => {
     3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4,
   ];
 
-  console.log("codBar", codBar.split(""));
   const revertedCodBar = codBar.split("").reverse();
 
   let soma = 0;
   revertedCodBar.forEach((item, index) => {
     pesos.forEach((pesoItem, pesoIndex) => {
-      if (index == pesoIndex) {
-        soma += item * pesoItem;
+      if (index !== 4) {
+        if (index == pesoIndex) {
+          soma += +item * pesoItem;
+          //console.log("item: ", +item);
+          //console.log("pesoItem: ", pesoItem);
+          //console.log("index: ", index);
+          //console.log("pesoIndex: ", pesoIndex);
+
+          // console.log("soma: ", soma, "\n");
+        }
       }
     });
-    console.log("soma", soma);
   });
 
   const resto = soma % 11;
 
   let result = 11 - resto;
 
+  console.log("length", codBar.length);
   console.log("resto", resto);
+  console.log("+codBar[4]", +revertedCodBar[4]);
 
   if (result == 0 || result == 10 || result == 11) {
     result = 1;
@@ -136,6 +144,7 @@ const validatorTitulo2 = (codBar) => {
   if (result != +codBar[4]) {
     return 0;
   }
+
   return 1;
 };
 
@@ -149,6 +158,10 @@ exports.validator = function validator(codBar) {
     return "Linha digitável invalida - Digitos verificadores incorretos";
   }
 
-  console.log("validatorTitulo2", validatorTitulo2(codBar));
+  // if (!validatorTitulo2(codBar)) {
+  //  return "Linha digitável invalida - Digito verificador incorreto";
+  //}
+
+  //console.log("validatorTitulo2", validatorTitulo2(codBar));
   return 1;
 };
