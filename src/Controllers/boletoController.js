@@ -5,9 +5,11 @@ const Validator = require("../Utils/validator");
 exports.getBoletos = async (req, res) => {
   const barCode = req.body.barCode;
 
-  const boleto = await Boleto.findOne({ barCode: barCode });
+  const formattedBarCode = barCode.replace(/[^\d]/g, "");
 
-  let validatorBarCode = Validator.validator(barCode);
+  const boleto = await Boleto.findOne({ barCode: formattedBarCode });
+
+  let validatorBarCode = Validator.validator(formattedBarCode);
 
   if (validatorBarCode === 1) {
     if (boleto) {
