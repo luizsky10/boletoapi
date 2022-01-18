@@ -14,7 +14,9 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use("/boleto", boletoRoutes);
 
 mongoose
-  .connect(process.env.MONGO_CREDENTIALS)
+  .connect(
+    "mongodb+srv://boleto:boleto@cluster0.neskp.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+  )
   .then((result) => {
     app.listen(port, () => {
       console.log(`Server listening at http://localhost:${port}`);
